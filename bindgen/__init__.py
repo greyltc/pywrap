@@ -264,7 +264,7 @@ def transform_modules(verbose,
         return m
 
     modules = Parallel(prefer='processes',n_jobs=n_jobs)\
-        (delayed(_filter_module)(m) for m in tqdm(modules), disable=True)
+        (delayed(_filter_module)(m) for m in tqdm(modules, disable=True))
 
     #construct global class dictionary
     class_dict = {}
