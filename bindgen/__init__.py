@@ -241,7 +241,7 @@ def parse_modules(verbose,
         return ModuleInfo(name,path,files,module_names,settings)
 
     modules = Parallel(prefer='processes',n_jobs=n_jobs)\
-        (delayed(_process_module)(name,files,module_names, get_includes.__defaults__,init_clang.__defaults__) for name,files in tqdm(module_dict.items()))
+        (delayed(_process_module)(name,files,module_names, get_includes.__defaults__,init_clang.__defaults__) for name,files in tqdm(module_dict.items(), disable=True))
 
     return modules
 
@@ -264,7 +264,7 @@ def transform_modules(verbose,
         return m
 
     modules = Parallel(prefer='processes',n_jobs=n_jobs)\
-        (delayed(_filter_module)(m) for m in tqdm(modules))
+        (delayed(_filter_module)(m) for m in tqdm(modules, disable=True))
 
     #construct global class dictionary
     class_dict = {}
@@ -406,7 +406,7 @@ def render(settings,module_settings,modules,class_dict):
     
     output_path.mkdir_p()
     with  output_path:
-        for m in tqdm(modules):
+        for m in tqdm(modules, disable=True):
             tqdm.write(f'Processing module {m.name}')
             
             jinja_env.globals.update({'module_settings' : module_settings.get(m.name,module_schema.validate({}))})
