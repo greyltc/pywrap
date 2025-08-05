@@ -43,7 +43,7 @@ class ModuleInfo(object):
 
         return Path(x).splitpath()[-1].split(".")[0].split("_")[0]
 
-    def __init__(self, name, prefix, paths, module_names, settings):
+    def __init__(self, name, prefix, paths, module_names, settings, target_platform):
 
         self.prefix = prefix
         self.name = name
@@ -53,7 +53,8 @@ class ModuleInfo(object):
 
         for p in paths:
             logger.debug(p)
-            self.headers.append(process_header(p, prefix, settings, name))
+            self.headers.append(process_header(
+                p, prefix, settings, name, target_platform))
 
         self.classes = []
         self.class_dict = {}

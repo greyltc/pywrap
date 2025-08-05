@@ -305,6 +305,9 @@ def parse_modules(
     verbose, n_jobs, settings, module_mapping, settings_per_module, target_platform
 ):
 
+    if target_platform is None:
+        target_platform = current_platform()
+
     settings["Modules"] = settings_per_module
 
     path = Path(settings["input_folder"])
@@ -313,10 +316,7 @@ def parse_modules(
     module_names = settings["modules"]
     exclude_ns = settings["exclude_namespaces"]
 
-    if target_platform is None:
-        module_names += settings[current_platform()]["modules"]
-    else:
-        module_names += settings[target_platform]["modules"]
+    module_names += settings[target_platform]["modules"]
 
     file_pats = [p.format(m) for m in module_names for p in settings["pats"]]
 
@@ -343,7 +343,7 @@ def parse_modules(
 
         if not verbose:
             logzero.logger.setLevel(logzero.logging.INFO)
-        return ModuleInfo(name, path, files, module_names, settings)
+        return ModuleInfo(name, path, files, module_names, settings, target_platform)
 
     modules = Parallel(prefer="processes", n_jobs=n_jobs)(
         delayed(_process_module)(

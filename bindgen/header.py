@@ -949,7 +949,7 @@ class HeaderInfo(object):
 
         _resolve_inheritance(cls.superclass)
 
-    def parse(self, path, input_folder, settings, module_name):
+    def parse(self, path, input_folder, settings, module_name, target_platform):
 
         module_settings = settings["Modules"].get(module_name)
 
@@ -1024,12 +1024,12 @@ class HeaderInfo(object):
         return tr_unit
 
 
-def process_header(path, input_folder, settings, module_name=None):
+def process_header(path, input_folder, settings, module_name, target_platform):
     """Main function from this module
     """
 
     hi = HeaderInfo()
-    hi.parse(path, input_folder, settings, module_name)
+    hi.parse(path, input_folder, settings, module_name, target_platform)
 
     return hi
 

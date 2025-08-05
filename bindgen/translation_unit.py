@@ -21,12 +21,16 @@ def parse_tu(
     parsing_header="",
     tu_parsing_header="",
     platform_parsing_header="",
+    target_platform=None,
 ):
     """Run a translation unit thorugh clang
     """
 
     args.append(f"-I{pybind11.get_include()}")
     args.append(f"-I{input_folder}")
+
+    if target_platform == "Windows":
+        args.apppend("(--target=x86_64-pc-windows-msvc")
 
     if prefix:
         args.append(f"--sysroot={prefix}")
@@ -47,7 +51,8 @@ def parse_tu(
         src = src[1:]
 
     dummy_code = (
-        f"{parsing_header}\n{platform_parsing_header}\n{tu_parsing_header}\n{src}"
+        f"{parsing_header}\n{platform_parsing_header}\n{
+            tu_parsing_header}\n{src}"
     )
     tr_unit = ix.parse(
         "dummy.cxx",
