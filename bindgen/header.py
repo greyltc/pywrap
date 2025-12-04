@@ -1,6 +1,6 @@
 from typing import List, Tuple, Any, Mapping, Optional
 from itertools import chain
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, astuple
 
 from clang.cindex import (
     CursorKind,
@@ -534,6 +534,10 @@ class ArgInfo:
             self.arg_py_name = f'{self.arg_name}_'
         else:
             self.arg_py_name = self.arg_name
+
+    def __iter__(self):
+
+        return iter(astuple(self))
 
 
 class FunctionInfo(BaseInfo):
