@@ -826,7 +826,7 @@ class ClassInfo(object):
 
     def filter_rvalues(self, funcs):
 
-        return [f for f in funcs if not any(("&&" in arg for _, arg, _ in f.args))]
+        return [f for f in funcs if not any(("&&" in arg for _, arg, _, _ in f.args))]
 
     def extend_defintion(self, other):
 

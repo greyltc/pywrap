@@ -522,7 +522,7 @@ def render(settings, module_settings, modules, class_dict, prefix=Path(""), plat
             ),
             "type_from_byref_smart_ptr": lambda t: type_form_byref_smart_ptr(t, settings["byref_types_smart_ptr"]),
             "args_byref": lambda f: [
-                arg for arg, t, _ in f.args if is_byref_arg(t, settings["byref_types"])
+                arg for arg, t, _, _  in f.args if is_byref_arg(t, settings["byref_types"])
             ],
             "enumerate": enumerate,
             "platform": platform if platform else current_platform(),
